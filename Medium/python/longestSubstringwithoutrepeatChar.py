@@ -1,42 +1,55 @@
 # Given a string s, find the length of the longest substring without repeating characters.
+# https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
 import unittest
 
 class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        # if (len(s) == 0): return 0
-        # maxCount = 0
-        # newList = []
-        # for i in range(len(s)-1):
-        #     newList.append(s[i])
-        #     for j in range(i+1, len(s)):
-        #         if s[j] not in newList:
-        #             newList.append(s[j])
-        #         else:
-        #             if (len(newList) > maxCount):
-        #                 maxCount = len(newList)
-        #             break
+    # 1st solution
+    # def lengthOfLongestSubstring(self, s: str) -> int:
+    #     myDictionary = {}
+    #     maxLength = 0
+    #     ans = 0
+        
+    #     for i in range(len(s)):
+    #         if s[i] not in myDictionary:
+    #             myDictionary[s[i]] = i
+                
+    #         else:
+            
+    #             maxLength = max(maxLength, myDictionary[s[i]] + 1)
+    #             myDictionary[s[i]] = i
+                
+    #         ans = max(ans, i - maxLength + 1)
+    #     return ans
 
-        #     if (len(newList) > maxCount):
-        #         maxCount = len(newList)
-        #     newList = []
-        # return maxCount
-        myDict = {}
-        result = 0
-        j = 0
+    # 2nd solution
+    # def lengthOfLongestSubstring(self, s:str) -> int:
+    #     seen = ''
+    #     mx = 0
+    #     for c in s:
+    #         if c not in seen:
+    #             seen+=c
+    #         else:
+    #             seen = seen[seen.index(c) + 1:] + c
+    #         mx = max(mx, len(seen))
+    #     return mx
+
+    # 3rd solution
+    def lengthOfLongestSubstring(self, s:str) -> int:
+        seen = ''
+        maxLength = 0
         for i in range(len(s)):
-            if s[i] not in myDict:
-                myDict[s[i]] = i
+            if s[i] not in seen:
+                seen += s[i]
             else:
-                j = max(j, myDict[s[i]]+ 1)
-                myDict[s[i]] = i
-
-            result = max(result, i - j + 1)
-        return result
-
+                seen = seen[seen.index(s[i]) + 1:] + s[i]
+            maxLength = max(maxLength, len(seen))
+        return maxLength
 
 class Test(unittest.TestCase):
     string1 = [('abcabcbb', 3), ('abc',3), ('pwwkew',3)]
     string2 = [('bbbb',3), ("",3) ,('abcde',3)]
+
     # Equal 3 
     def testEqualLongestSub(self):
         for testString, secondString in self.string1:
